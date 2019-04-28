@@ -46,4 +46,7 @@ register_activation_hook(__FILE__,array($alecaddPlgin,'activate'));
 register_deactivation_hook(__FILE__,array($alecaddPlgin,'deactivate'));
 
 
+register_uninstall_hook(__FILE__, array($alecaddPlgin, 'uninstall'));
+
+
 
