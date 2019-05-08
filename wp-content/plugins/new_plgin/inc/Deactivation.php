@@ -1,6 +1,7 @@
 <?php
+namespace Inc;
 
-class NewPluginDeactivation{
+class Deactivation{
         public static function deactivation(){
         flush_rewrite_rules();
         }

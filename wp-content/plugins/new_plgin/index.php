@@ -9,28 +9,54 @@
 **/
 
 defined('ABSPATH') or die('exit ya baby ');
+if(file_exists(dirname(__FILE__).'/vendor/autoload.php')){
+    require_once dirname(__FILE__).'/vendor/autoload.php';
+}
+use Inc\Activation;
+use Inc\Deactivation;
 
 if (class_exists('AlecaddPlgin')) {
     class AlecaddPlgin{
+        public $plugin;
+
         function __construct( ) {
-        
+            $this->plugin= plugin_basename(__FILE__);
         }
 
         public  function register(){
             add_action('admin_enqueue_scripts',[ 'AlecaddPlgin','enqueue']) ;//admin_enqueue_scripts  admin panel // wp_enqueue_scripts for users 
+            add_action('admin_menu',array($this,'add_admin_pages'));
+            add_filter( "plugin_action_links_$this->plugin", [$this,'settings_link'] );
+
         }
 
+        public function settings_link($links){
+            // add custum settings
+            $settings_link='<a href="admin.php?page=new_plugin">Settings</a>';
+            array_push($links,$settings_link);
+            return $links;
+
+        }
+
+        public function add_admin_pages(){
+            add_menu_page('newplgin', ' new', 'manage_options', 'slg', [$this,'admin_index'], 'dashicons-admin-site', 110);
+        }
+        public function admin_index(){
+            //set template a defulate 
+            require_once plugin_dir_url(__FILE__) . 'templates/admin.php';
+        }
         public  function activate(){
             //  $this->custum_post_type();
             // activate hook
-            require_once plugin_dir_url(__FILE__) . 'inc/new-plugin-activation.php';
-            register_activation_hook(__FILE__,array( 'NewPluginActivation','activate'));
+            // require_once plugin_dir_url(__FILE__) . 'inc/new-plugin-activation.php';
+            Activation::activation();
+
         }
 
         public static function deactivate(){
             // deactivate hook
-            require_once plugin_dir_url(__FILE__) . 'inc/new-plugin-deactivation.php';
-            register_deactivation_hook(__FILE__,array( 'NewPluginDeactivation','deactivate'));
+            //require_once plugin_dir_url(__FILE__) . 'inc/new-plugin-deactivation.php';
+            Deactivation::deactivation();
         }
 
         protected   function create_posts_type(){
