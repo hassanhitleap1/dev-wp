@@ -1,17 +1,19 @@
 {
-    "name": "saleh/new_plgin",
-    "description": "to test composer plguin",
-    "type": "projrct",
-    "license": "gpl",
+    "name": "alecaddd/alecaddd-plugin",
+    "description": "Awesome starter plugin example",
+    "type": "project",
+    "license": "GPL",
     "authors": [
         {
-            "name": "hasan",
-            "email": "hassanhitleap1@gmail.com"
+         "name": "hassanhitleap1",
+        "email": "hassanhitleap1@gmail.com"
         }
     ],
     "minimum-stability": "dev",
     "require": {},
     "autoload": {
-        "psr-4": {"Inc\\":".inc"}
+        "psr-4": {
+            "Inc\\": "./inc"
+        }
     }
 }
